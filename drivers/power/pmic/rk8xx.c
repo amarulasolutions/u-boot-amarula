@@ -25,6 +25,11 @@ static const struct pmic_child_info pmic_children_info[] = {
 	{ },
 };
 
+static const struct pmic_child_info rtc_info[] = {
+	{ .prefix = "rk808-rtc", .driver = "rk808_rtc"},
+	{ },
+};
+
 static int rk8xx_reg_count(struct udevice *dev)
 {
 	return RK808_NUM_OF_REGS;
@@ -60,7 +65,7 @@ static int rk8xx_read(struct udevice *dev, uint reg, uint8_t *buff, int len)
 #if CONFIG_IS_ENABLED(PMIC_CHILDREN)
 static int rk8xx_bind(struct udevice *dev)
 {
-	ofnode regulators_node;
+	ofnode regulators_node, rtc_node;
 	int children;
 
 	regulators_node = dev_read_subnode(dev, "regulators");
@@ -73,6 +78,18 @@ static int rk8xx_bind(struct udevice *dev)
 	debug("%s: '%s' - found regulators subnode\n", __func__, dev->name);
 
 	children = pmic_bind_children(dev, regulators_node, pmic_children_info);
+	if (!children)
+		debug("%s: %s - no child found\n", __func__, dev->name);
+
+	rtc_node = dev_read_subnode(dev, "rtc");
+	if (!ofnode_valid(rtc_node)) {
+		debug("%s: %s rtc subnode not found!\n", __func__, dev->name);
+		return -ENXIO;
+	}
+
+	debug("%s: '%s' - found rtc subnode\n", __func__, dev->name);
+
+	children = pmic_bind_children(dev, rtc_node, rtc_info);
 	if (!children)
 		debug("%s: %s - no child found\n", __func__, dev->name);
 
