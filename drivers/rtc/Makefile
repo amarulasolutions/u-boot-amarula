@@ -44,6 +44,7 @@ obj-$(CONFIG_RTC_PCF8563) += pcf8563.o
 obj-$(CONFIG_RTC_PCF2127) += pcf2127.o
 obj-$(CONFIG_RTC_PL031) += pl031.o
 obj-$(CONFIG_RTC_PT7C4338) += pt7c4338.o
+obj-$(CONFIG_RTC_RK808) += rk808-rtc.o
 obj-$(CONFIG_RTC_RS5C372A) += rs5c372.o
 obj-$(CONFIG_RTC_RV3029) += rv3029.o
 obj-$(CONFIG_RTC_RV8803) += rv8803.o
