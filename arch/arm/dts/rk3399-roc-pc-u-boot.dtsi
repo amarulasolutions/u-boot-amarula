@@ -44,6 +44,14 @@
 	vin-supply = <&vcc_vbus_typec0>;
 };
 
+&rk808 {
+	rtc {
+		rkrtc: rk808-rtc {
+			status="okay";
+		};
+	};
+};
+
 &spi1 {
 	spi_flash: flash@0 {
 		u-boot,dm-pre-reloc;
