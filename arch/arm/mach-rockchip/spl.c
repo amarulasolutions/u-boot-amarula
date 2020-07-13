@@ -122,8 +122,6 @@ void board_init_f(ulong dummy)
 	debug("\nspl:debug uart enabled in %s\n", __func__);
 #endif
 
-	board_early_init_f();
-
 	ret = spl_early_init();
 	if (ret) {
 		printf("spl_early_init() failed: %d\n", ret);
@@ -137,6 +135,9 @@ void board_init_f(ulong dummy)
 	/* Init ARM arch timer in arch/arm/cpu/armv7/arch_timer.c */
 	timer_init();
 #endif
+
+	board_early_init_f();
+
 #if !defined(CONFIG_TPL) || defined(CONFIG_SPL_RAM)
 	debug("\nspl:init dram\n");
 	ret = dram_init();
